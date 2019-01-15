@@ -592,6 +592,7 @@ function createClientWebpackConfig({
         'window.__CI_APP_VERSION__': JSON.stringify(
           artifactVersion ? artifactVersion : '0.0.0',
         ),
+        'process.env.ARTIFACT_ID': JSON.stringify(process.env.ARTIFACT_ID),
       }),
 
       // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
