@@ -220,3 +220,14 @@ module.exports.killSpawnProcessAndHisChildren = child => {
     });
   });
 };
+
+/**
+ * Gets the artifact id of the project at the current working dir
+ */
+module.exports.getProjectArtifactId = () => {
+  const artifactId = new xmldoc.XmlDocument(
+    fs.readFileSync(POM_FILE),
+  ).valueWithPath('artifactId');
+
+  return artifactId;
+};
