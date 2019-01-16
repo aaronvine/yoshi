@@ -9,7 +9,6 @@ const {
   outsideTeamCity,
   teamCityArtifactVersion,
   noArtifactVersion,
-  teamCityArtifactId,
 } = require('../../../test-helpers/env-variables');
 const { createCommonWebpackConfig } = require('../config/webpack.config');
 
@@ -288,15 +287,16 @@ describe('Webpack basic configs', () => {
       expect(test.content('dist/statics/app.bundle.js')).to.contain('"0.0.0"');
     });
 
-    it('should populate process.env.ARTIFACT_ID with the artifact id', () => {
+    it('should populate process.env.ARTIFACT_ID with the artifact id from pom.xml', () => {
       const res = test
         .setup({
           'src/client.js': `const foo = process.env.ARTIFACT_ID;`,
+          'pom.xml': fx.pom(),
         })
-        .execute('build', [], teamCityArtifactId);
+        .execute('build', []);
 
       expect(res.code).to.equal(0);
-      expect(test.content('dist/statics/app.bundle.js')).to.contain('"some-artifact-id"');
+      expect(test.content('dist/statics/app.bundle.js')).to.contain('"app-id"');
     });
   });
 

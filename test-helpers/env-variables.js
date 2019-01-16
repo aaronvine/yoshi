@@ -9,5 +9,4 @@ module.exports = {
   insideWatchMode: { WIX_NODE_BUILD_WATCH_MODE: true },
   teamCityArtifactVersion: { ARTIFACT_VERSION: '1.0.0' },
   noArtifactVersion: { ARTIFACT_VERSION: '' },
-  teamCityArtifactId: { ARTIFACT_ID: 'some-artifact-id' },
 };
