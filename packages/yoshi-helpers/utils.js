@@ -186,12 +186,27 @@ function concatCustomizer(objValue, srcValue) {
 module.exports.mergeByConcat = require('lodash/fp').mergeWith(concatCustomizer);
 
 /**
+ * Gets the artifact id of the project at the current working dir
+ */
+const getProjectArtifactId = () => {
+  try {
+    const artifactId = new xmldoc.XmlDocument(
+      fs.readFileSync(POM_FILE),
+    ).valueWithPath('artifactId');
+
+    return artifactId;
+  } catch (error) {
+    return '';
+  }
+};
+
+module.exports.getProjectArtifactId = getProjectArtifactId;
+
+/**
  * Gets the CDN base path for the project at the current working dir
  */
 module.exports.getProjectCDNBasePath = () => {
-  const artifactName = new xmldoc.XmlDocument(
-    fs.readFileSync(POM_FILE),
-  ).valueWithPath('artifactId');
+  const artifactName = getProjectArtifactId();
 
   const artifactVersion = process.env.ARTIFACT_VERSION
     ? process.env.ARTIFACT_VERSION.replace('-SNAPSHOT', '') // Dev CI
@@ -219,19 +234,4 @@ module.exports.killSpawnProcessAndHisChildren = child => {
       resolve();
     });
   });
-};
-
-/**
- * Gets the artifact id of the project at the current working dir
- */
-module.exports.getProjectArtifactId = () => {
-  try {
-    const artifactId = new xmldoc.XmlDocument(
-      fs.readFileSync(POM_FILE),
-    ).valueWithPath('artifactId');
-
-    return artifactId;
-  } catch (error) {
-    return '';
-  }
 };
