@@ -189,15 +189,15 @@ module.exports.mergeByConcat = require('lodash/fp').mergeWith(concatCustomizer);
  * Gets the artifact id of the project at the current working dir
  */
 const getProjectArtifactId = () => {
-  try {
+  if (fs.existsSync(POM_FILE)) {
     const artifactId = new xmldoc.XmlDocument(
       fs.readFileSync(POM_FILE),
     ).valueWithPath('artifactId');
 
     return artifactId;
-  } catch (error) {
-    return '';
   }
+
+  return '';
 };
 
 module.exports.getProjectArtifactId = getProjectArtifactId;
